@@ -55,6 +55,7 @@ function gameEngine() {
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
+        speed+=0.1;//added to increase the speed by 0.1
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
