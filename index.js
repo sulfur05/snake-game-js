@@ -1,9 +1,12 @@
 let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
+let popUp = document.getElementById('popUp')
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
+let count = 0;
+let maxCount = 0;
 
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
@@ -19,6 +22,14 @@ let food = {
 };
 
 // Game Functions
+function closePopUp(){
+    popUp.classList.remove('popup');
+}
+
+function openPopUp(){
+    popUp.classList.add('popup');
+}
+
 function main(ctime) {
     window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
@@ -40,10 +51,23 @@ function isCollide(snake) {
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
+
+        if(count > maxCount){
+            maxCount = count;
+            maxScoreCont.innerText = `Max Score: ${maxCount}`;
+            openPopUp();
+        }
+        else{
+            alert("Game over. Press any key to play again");
+        }
+
+        //will initialize score to 0
+        count = 0;
+        scoreCont.innerText = `Score: ${count}`; 
+
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
-        alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
         // musicSound.play();
     }
@@ -56,6 +80,11 @@ function gameEngine() {
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         speed+=0.1;//added to increase the speed by 0.1
+        
+        //increasing the count and updating it
+        count+=1;
+        scoreCont.innerText = `Score: ${count}`;
+
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
