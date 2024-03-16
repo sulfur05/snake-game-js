@@ -31,28 +31,6 @@ function openPopUp(){
     popUp.classList.add('popup');
 }
 
-function generateConfetti() {
-    for (let i = 0; i < 100; i++) {
-        const conf = document.createElement('div');
-        conf.classList.add('confetti');
-        conf.style.left = Math.random() * window.innerWidth + 'px';
-        conf.style.backgroundColor = randomColor(); // Optional: to give confetti random colors
-        confettiContainer.appendChild(conf);
-
-        setTimeout(() => {
-            conf.remove();
-        }, 5000);
-    }
-}
-
-function randomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
 
 function main(ctime) {
     window.requestAnimationFrame(main);
@@ -86,7 +64,7 @@ function gameEngine() {
             maxCount = count;
             maxScoreCont.innerText = `Max Score: ${maxCount}`;
             openPopUp();
-            generateConfetti();
+        
         }
         else{
             alert("Game over. Press any key to continue");
