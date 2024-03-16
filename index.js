@@ -63,6 +63,7 @@ function gameEngine() {
 
         //will initialize score to 0
         count = 0;
+        speed=0;
         scoreCont.innerText = `Score: ${count}`; 
 
         gameOverSound.play();
