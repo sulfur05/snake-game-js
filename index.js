@@ -2,6 +2,7 @@ let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
 let popUp = document.getElementById('popUp')
+let confettiContainer = document.getElementById('confetti')
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -30,6 +31,19 @@ function openPopUp(){
     popUp.classList.add('popup');
 }
 
+function confetti(){
+    for(let i=0; i<100; i++){
+        const paper = document.createElement('div');
+        paper.classList.add('confetti');
+        conf.style.left= Math.random()*window.innerWidth+'px';
+        confettiContainer.appendChild(conf);
+
+        setTimeout(() => {
+            conf.remove();
+          }, 5000);
+    }
+}
+
 function main(ctime) {
     window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
@@ -41,12 +55,18 @@ function main(ctime) {
     // console.log(ctime);
 }
 function isCollide(snake) {
-    // return false;
-    //if you into yourself
-    
+    // Check if snake collides with boundaries
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
+
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+            return true;
+        }
+    }
+
+    return false;
 }
 function gameEngine() {
     //part1: updating the snake array and food
@@ -56,14 +76,15 @@ function gameEngine() {
             maxCount = count;
             maxScoreCont.innerText = `Max Score: ${maxCount}`;
             openPopUp();
+            confetti();
         }
         else{
-            alert("Game over. Press any key to play again");
+            alert("Game over. Press any key to continue");
         }
 
         //will initialize score to 0
         count = 0;
-        speed=0;
+        speed=5;
         scoreCont.innerText = `Score: ${count}`; 
 
         gameOverSound.play();
